@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctors | Sign Up</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../css/sign.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"
+        integrity="sha512-a+SUDuwNzXDvz4XrIcXHuCf089/iJAoN4lmrXJg18XnduKK6YlDHNRalv4yd1N40OKI80tFidF+rqTFKGPoWFQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div id="register-section" class="sign-section">
+        <section id="showcase">
+            <div>
+                <a href="../index.html">Doctors</a>
+            </div>
+
+            <div id="paragraph">
+                <p>create a new account to start scheduling appointments 📋</p>
+            </div>
+
+            <div id="image">
+            </div>
+        </section>
+        <section id="signup">
+            <div>
+                <h1>Register</h1>
+                <div>
+                    <h1>account creation</h1>
+                    <p>please fill out all fields and make sure to choose to register as a patient or a doctor</p>
+                </div>
+            </div>
+            <form id="r-form">
+                <div class="form-input" id="username">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" required>
+                </div>
+                <div class="form-input" id="email">
+                    <label for="email">Email</label>
+                    <input type="text" name="email">
+                </div>
+                <div class="form-input" id="password">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" required>
+                </div>
+                <div class="form-input" id="acc-type">
+                    <label for="acc-type">Account Type</label>
+                    <select name="acc-type" required>
+                        <option value="patient">Patient</option>
+                        <option value="doctor">Doctor</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <div class="form-input" id="terms">
+                    <label for="acc-type">I agree to all <span>Terms</span> and <span>Privacy Policy</span></label>
+                    <input type="checkbox" name="terms" required>
+                </div>
+
+                <button id="submit-btn">Create Account</button>
+
+                <div id="q-login">Already have an account? <span><a>Log in</a></span></div>
+            </form>
+        </section>
+    </div>
+
+    <div id="login-section" class="hidden">
+        <section id="showcase">
+            <div>
+                <a href="../index.html">Doctors</a>
+            </div>
+
+            <div id="paragraph">
+                <p>login to your account start scheduling appointments 📋</p>
+            </div>
+
+            <div id="image">
+            </div>
+        </section>
+        <section id="signup">
+            <div>
+                <h1>Login</h1>
+                <div>
+                    <h1>login to your account</h1>
+                    <p>Thank you for using Doctors as your appointments manager</p>
+                </div>
+            </div>
+            <form id="l-form">
+                <div class="form-input" id="username">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" required>
+                </div>
+                <div class="form-input" id="password">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" required>
+                </div>
+
+                <button id="submit-btn">Sign In</button>
+
+                <div id="q-register">Don't have an account yet? <span><a>Join Doctors</a></span></div>
+            </form>
+        </section>
+    </div>
+
+    <script src="../js/sign.js"></script>
+    <script src="../js/db.js"></script>
+</body>
+</html>

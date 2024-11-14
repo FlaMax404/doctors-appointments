@@ -1,0 +1,3 @@
+*redesign the medical notes written by doctor to include the medicines database and symptoms
+*add admin ability to change all patient details and register new patients and delete patients.
+*add a permission restriction for sign up page to only be accessed by an admin.

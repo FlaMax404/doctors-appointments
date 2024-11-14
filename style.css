@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --text: #0d1318;
+  --background: #fbfcfd;
+  --primary: #4787be;
+  --secondary: #90bbe0;
+  --accent: #5ca0db;
+  --danger: #f83e55;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  background-color: var(--background);
+}
+
+.hidden {
+  display: none;
+}
+
+nav {
+  position: sticky;
+  top: 0;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--background);
+  width: 100%;
+
+  #logo {
+    font-weight: bolder;
+    font-size: 2rem;
+    text-decoration: none;
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+    a {
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border-bottom: 1px solid transparent;
+    }
+
+    a:hover {
+      color: var(--accent);
+      border-bottom: 1px solid var(--accent);
+    }
+
+    #sign-link {
+      padding: 0.5rem 1rem;
+      background-color: var(--primary);
+      border-radius: 5px;
+      color: var(--background);
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    #sign-link:hover {
+      background-color: var(--accent);
+    }
+  }
+
+  #user-menu {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    h1 {
+      font-size: 1.1rem;
+      cursor: default;
+    }
+
+    #sign-out {
+      width: 32px;
+      height: 32px;
+      background-color: var(--background);
+      border: 1px solid var(--danger);
+      border-radius: 5px;
+      color: var(--danger);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    #sign-out:hover {
+      background-color: var(--danger);
+      color: var(--background);
+    }
+  }
+}
+
+.container {
+  container-type: inline-size;
+  width: calc(100% - 100px);
+  margin: 0 auto;
+  padding: 0.7rem;
+}
+
+@media (min-width: 760px) {
+  .container {
+    width: calc(100% - 200px);
+  }
+}
+
+.form-input {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  width: 100%;
+
+  label {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--background);
+    margin-bottom: 4px;
+  }
+
+  input {
+    font-size: 1.2rem;
+    padding: 0.2rem 0 0.2rem 0.5rem;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    width: 100%;
+    height: 2.5rem;
+  }
+
+  select {
+    font-size: 1rem;
+    padding: 0.2rem 0 0.2rem 0.5rem;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    width: 100%;
+    height: 2.5rem;
+  }
+
+  textarea {
+    font-size: 1rem;
+    padding: 0.2rem 0 0.2rem 0.5rem;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    min-height: 128px;
+    margin: 0 auto;
+  }
+}

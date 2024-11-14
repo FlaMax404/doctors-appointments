@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOCTORS</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./css/index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"
+        integrity="sha512-a+SUDuwNzXDvz4XrIcXHuCf089/iJAoN4lmrXJg18XnduKK6YlDHNRalv4yd1N40OKI80tFidF+rqTFKGPoWFQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <nav>
+        <a id="logo" href="index.html">Doctors</a>
+        <div>
+            <!-- <a href=""></a> -->
+            <a href="./pages/about.html">About Us</a>
+            <a href="./pages/contact.html">Contact</a>
+            <div id="user-menu">
+                <!-- <a id="sign-link" href="./pages/sign.html">Sign Up</a> -->
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <form id="appointment-form">
+            <h1>Schedule an appointment</h1>
+            <!-- time -->
+            <div id="date">
+                <div class="form-input">
+                    <label for="hour">Hour</label>
+                    <input name="hour" type="number" max="12" min="1">
+                </div>
+                <div class="form-input">
+                    <label for="minute">Minutes</label>
+                    <input name="minute" type="number" max="60" min="0">
+                </div>
+                <div class="form-input">
+                    <label for="daynight">Day/Night</label>
+                    <select name="daynight" id="daynight">
+                        <option value="AM">AM</option>
+                        <option value="PM">PM</option>
+                    </select>
+                </div>
+                <!-- doctors -->
+                <div class="form-input">
+                    <label for="doctor">Doctor</label>
+                    <select name="doctor" id="doctor">
+                        <option value="Walter White">Walter White</option>
+                        <option value="John Wick">John Wick</option>
+                        <option value="Batman">Batman</option>
+                        <option value="Kareem">Kareem</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- symptoms -->
+            <div class="form-input">
+                <label for="symptoms">Symptoms</label>
+                <textarea name="symptoms" id="symptoms"></textarea>
+            </div>
+
+            <button>Schedule Appointment</button>
+        </form>
+
+        <main id="main">
+            <!-- <div class="appointment">
+                <div class="appointment-doctor">
+                    <h1>Dr. </h1>
+                    <h1>Walter White</h1>
+                </div>
+                <div class="appointment-details">
+                    <div class="appointment-details-tag">
+                        <p>patient</p>
+                        <h1>jaafar</h1>
+                    </div>
+                    <div class="appointment-details-tag">
+                        <p>date</p>
+                        <h1>12:30 pm</h1>
+                    </div>
+                </div>
+            </div> -->
+        </main>
+    </div>
+
+    <script src="./js/db.js"></script>
+    <script src="./js/index.js"></script>
+</body>
+</html>
