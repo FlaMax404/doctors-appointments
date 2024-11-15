@@ -246,10 +246,6 @@ function postRecord(objectStore, data, callback) {
   }
 }
 
-function generateID() {
-  return `${Math.floor(Math.random() * (Math.PI * 10000000))}`;
-}
-
 function Encrypt(word) {
   const encrypted = CryptoJS.AES.encrypt(word, encryptionKey).toString();
 

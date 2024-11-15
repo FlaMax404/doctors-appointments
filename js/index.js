@@ -1,40 +1,56 @@
-// const main = document.getElementById('main');
-const form = document.getElementById('appointment-form');
+const main = document.getElementById('main');
 
 const content = document.getElementById('content');
+let localUser;
 
 window.addEventListener('load', () => {
-  const localUser = JSON.parse(window.localStorage.getItem('user'));
+  localUser = JSON.parse(window.localStorage.getItem('user'));
 
   switch (localUser.accountType) {
     case 'admin':
       renderUsers();
       break;
     case 'doctors':
+      renderAppoints(true);
       break;
     case 'patients':
+      content.removeChild(main);
+      content.appendChild(appointmentsFormElement());
+      content.appendChild(main);
+
+      const form = document.getElementById('appointment-form');
+      let count = 0;
+
       form.addEventListener('submit', (e) => {
         e.preventDefault();
+
+        if (count >= 3) {
+          alert('NIGGER STOP PRESSING THE SECHDULE BUTTON!!!11122');
+          count = 0;
+          return;
+        }
+        count++;
 
         if (form['hour'].value === '' || form['symptoms'].value === '') {
           alert('you have to fill all fields');
           return;
         }
 
-        if (!currentUser) {
-          alert('please sign in to schedule an appointment');
-          return;
-        }
+        // if (!currentUser) {
+        //   alert('please sign in to schedule an appointment');
+        //   return;
+        // }
 
-        if (currentUser && currentUser.type === 'doctor') {
-          alert('please sign in as a patient to schedule an appointment');
-          return;
-        }
+        // if (currentUser && currentUser.type === 'doctor') {
+        //   alert('please sign in as a patient to schedule an appointment');
+        //   return;
+        // }
 
+        const username = `${localUser.user.First} ${localUser.user.Last}`;
         const newAppoint = {
           id: generateID(),
           doctor: form['doctor'].value,
-          patient: currentUser.username,
+          patient: username,
           symptoms: form['symptoms'].value,
           date: {
             hour: form['hour'].value,
@@ -52,64 +68,7 @@ window.addEventListener('load', () => {
         addAppointment(newAppoint);
       });
 
-      content.innerHTML = `<form id="appointment-form">
-            <h1>Schedule an appointment</h1>
-            <!-- time -->
-            <div id="date">
-                <div class="form-input">
-                    <label for="hour">Hour</label>
-                    <input name="hour" type="number" max="12" min="1">
-                </div>
-                <div class="form-input">
-                    <label for="minute">Minutes</label>
-                    <input name="minute" type="number" max="60" min="0">
-                </div>
-                <div class="form-input">
-                    <label for="daynight">Day/Night</label>
-                    <select name="daynight" id="daynight">
-                        <option value="AM">AM</option>
-                        <option value="PM">PM</option>
-                    </select>
-                </div>
-                <!-- doctors -->
-                <div class="form-input">
-                    <label for="doctor">Doctor</label>
-                    <select name="doctor" id="doctor">
-                        <option value="Walter White">Walter White</option>
-                        <option value="John Wick">John Wick</option>
-                        <option value="Batman">Batman</option>
-                        <option value="Kareem">Kareem</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- symptoms -->
-            <div class="form-input">
-                <label for="symptoms">Symptoms</label>
-                <textarea name="symptoms" id="symptoms"></textarea>
-            </div>
-
-            <button>Schedule Appointment</button>
-        </form>
-
-        <main id="main">
-            <!-- <div class="appointment">
-                <div class="appointment-doctor">
-                    <h1>Dr. </h1>
-                    <h1>Walter White</h1>
-                </div>
-                <div class="appointment-details">
-                    <div class="appointment-details-tag">
-                        <p>patient</p>
-                        <h1>jaafar</h1>
-                    </div>
-                    <div class="appointment-details-tag">
-                        <p>date</p>
-                        <h1>12:30 pm</h1>
-                    </div>
-                </div>
-            </div> -->
-        </main>`;
+      renderAppoints(false);
       break;
   }
 });
@@ -121,7 +80,7 @@ function renderUsers() {
     const resultArray = Array.isArray(res) ? res : Array.from(res);
 
     if (resultArray.length === 0) {
-      console.log('kos omak');
+      console.log('empty');
       return;
     }
 
@@ -133,23 +92,38 @@ function renderUsers() {
 
 // renderAppoints();
 
-// function renderAppoints() {
-//   main.innerHTML = '';
+function renderAppoints(showbtn) {
+  main.innerHTML = '';
 
-//   fetchDB('appointments', (res) => {
-//     const resultArray = Array.isArray(res) ? res : Array.from(res);
+  let query = '';
+  let index = '';
+  if (localUser.accountType === 'patients') {
+    query = `${localUser.user.First} ${localUser.user.Last}`;
+    index = 'patient_name';
+  } else {
+    query = `${localUser.user.first_name} ${localUser.user.last_name}`;
+    index = 'doctor_name';
+  }
 
-//     if (resultArray.length === 0) {
-//       console.log('No appointments found.');
-//       return;
-//     }
+  fetchQueryDB('appointments', index, query, (res) => {
+    const resultArray = Array.isArray(res) ? res : Array.from(res);
 
-//     resultArray.forEach((appoint, index) => {
-//       //   console.log(`Appointment ${index}:`, appoint);
-//       main.appendChild(appointmentElement(appoint));
-//     });
-//   });
-// }
+    if (resultArray.length === 0) {
+      console.log('No appointments found.');
+      main.innerHTML = `<h1>No appointments found.</h1>`;
+      return;
+    }
+
+    resultArray.forEach((appoint, index) => {
+      //   console.log(`Appointment ${index}:`, appoint);
+      if (showbtn === true) {
+        main.appendChild(appointmentElement(appoint, true));
+      } else {
+        main.appendChild(appointmentElement(appoint, false));
+      }
+    });
+  });
+}
 
 function deleteAppointment(id) {
   deleteRecord('appointments', id, () => {
@@ -199,7 +173,7 @@ function addAppointment(appointment) {
   };
 }
 
-function appointmentElement(a) {
+function appointmentElement(a, showUpdateButton) {
   const father = document.createElement('div');
   father.classList.add('appointment');
 
@@ -217,7 +191,6 @@ function appointmentElement(a) {
 
   firstChild.appendChild(nameHandler);
   firstChild.appendChild(docName);
-
   info.appendChild(firstChild);
 
   const secondChild = document.createElement('div');
@@ -244,11 +217,7 @@ function appointmentElement(a) {
 
   const h1_date = document.createElement('h1');
   h1_date.innerText = `${a.date.hour}:${
-    a.date.minutes < 10
-      ? a.date.minutes > 0
-        ? `0${a.date.minutes}`
-        : '00'
-      : a.date.minutes
+    a.date.minutes < 10 ? `0${a.date.minutes}` : a.date.minutes
   } ${a.date.m}`;
 
   date.appendChild(p_date);
@@ -268,33 +237,113 @@ function appointmentElement(a) {
   symp.appendChild(h1_symp);
   secondChild.appendChild(symp);
 
-  info.appendChild(secondChild);
+  // Medicine section
+  const medicine = document.createElement('div');
+  medicine.classList.add('appointment-details-tag');
 
+  const p_medicine = document.createElement('p');
+  p_medicine.innerText = 'medicine';
+
+  const h1_medicine = document.createElement('h1');
+  h1_medicine.innerText = a.medicine || 'Pending prescription';
+
+  medicine.appendChild(p_medicine);
+  medicine.appendChild(h1_medicine);
+  secondChild.appendChild(medicine);
+
+  info.appendChild(secondChild);
   father.appendChild(info);
-  if (currentUser && currentUser.type === 'admin') {
+
+  // State to track edit mode
+  let isEditing = false;
+
+  // Show Update button if `showUpdateButton` is true
+  if (showUpdateButton) {
     const actions = document.createElement('div');
     actions.classList.add('appointment-actions');
 
-    //   const accept = document.createElement('button');
-    //   accept.id = 'accept';
-    //   accept.innerText = 'accept';
+    const updateButton = document.createElement('button');
+    updateButton.innerText = 'Update';
+    updateButton.classList.add('update-button');
 
-    //   accept.addEventListener('click', () => {
-    //     deleteAppointment(a.id);
-    //   });
-    //   actions.appendChild(accept);
+    // Save and Cancel buttons, initially hidden
+    const saveButton = document.createElement('button');
+    saveButton.innerText = 'Save';
+    saveButton.classList.add('save-button');
+    saveButton.style.display = 'none';
 
-    const cancel = document.createElement('button');
-    cancel.id = 'cancel';
-    cancel.innerText = 'delete';
+    const cancelButton = document.createElement('button');
+    cancelButton.innerText = 'Cancel';
+    cancelButton.classList.add('cancel-button');
+    cancelButton.style.display = 'none';
 
-    cancel.addEventListener('click', () => {
-      deleteAppointment(a.id);
+    actions.appendChild(updateButton);
+    actions.appendChild(saveButton);
+    actions.appendChild(cancelButton);
+    father.appendChild(actions);
+
+    // Medicine dropdown
+    let medicineDropdown;
+
+    // Toggle Edit Mode
+    const toggleEditMode = () => {
+      isEditing = !isEditing;
+      updateButton.style.display = isEditing ? 'none' : 'inline';
+      saveButton.style.display = isEditing ? 'inline' : 'none';
+      cancelButton.style.display = isEditing ? 'inline' : 'none';
+      h1_medicine.style.display = isEditing ? 'none' : 'block';
+
+      if (isEditing) {
+        // Create and show the dropdown in edit mode
+        medicineDropdown = document.createElement('select');
+        medicineDropdown.id = 'med-select';
+
+        // medicines.forEach((med) => {
+        //   const option = document.createElement('option');
+        //   option.value = med;
+        //   option.innerText = med;
+        //   medicineDropdown.appendChild(option);
+        // });
+
+        fetchDB('medicines', (res) => {
+          const resultArray = Array.isArray(res) ? res : Array.from(res);
+
+          if (resultArray.length === 0) {
+            console.log('empty');
+            return;
+          }
+
+          resultArray.forEach((doc) => {
+            const option = document.createElement('option');
+            option.value = doc.Drug;
+            option.textContent = doc.Drug;
+            medicineDropdown.appendChild(option);
+          });
+        });
+
+        // Add dropdown to the medicine section
+        medicine.appendChild(medicineDropdown);
+      } else {
+        // Remove dropdown if exists
+        if (medicineDropdown) {
+          medicine.removeChild(medicineDropdown);
+          medicineDropdown = null;
+        }
+      }
+    };
+
+    // Event listeners for buttons
+    updateButton.addEventListener('click', toggleEditMode);
+
+    saveButton.addEventListener('click', () => {
+      // Update the medicine text with the selected value from the dropdown
+      a.medicine = medicineDropdown.value; // Optional: Save in object
+      updateRecord('appointments', a.id, a);
+      toggleEditMode();
+      window.location.reload();
     });
 
-    actions.appendChild(cancel);
-
-    father.appendChild(actions);
+    cancelButton.addEventListener('click', toggleEditMode);
   }
 
   return father;
@@ -468,4 +517,129 @@ function deleteUser(userId) {
     renderUsers();
   });
   // Additional code to delete the user
+}
+
+function appointmentsFormElement() {
+  // Create the form element
+  const form = document.createElement('form');
+  form.id = 'appointment-form';
+
+  // Create the heading
+  const heading = document.createElement('h1');
+  heading.textContent = 'Schedule an appointment';
+  form.appendChild(heading);
+
+  // Time input section
+  const dateDiv = document.createElement('div');
+  dateDiv.id = 'date';
+
+  // Hour input
+  const hourDiv = document.createElement('div');
+  hourDiv.className = 'form-input';
+  const hourLabel = document.createElement('label');
+  hourLabel.htmlFor = 'hour';
+  hourLabel.textContent = 'Hour';
+  const hourInput = document.createElement('input');
+  hourInput.name = 'hour';
+  hourInput.type = 'number';
+  hourInput.max = '12';
+  hourInput.min = '1';
+  hourDiv.appendChild(hourLabel);
+  hourDiv.appendChild(hourInput);
+  dateDiv.appendChild(hourDiv);
+
+  // Minute input
+  const minuteDiv = document.createElement('div');
+  minuteDiv.className = 'form-input';
+  const minuteLabel = document.createElement('label');
+  minuteLabel.htmlFor = 'minute';
+  minuteLabel.textContent = 'Minutes';
+  const minuteInput = document.createElement('input');
+  minuteInput.name = 'minute';
+  minuteInput.type = 'number';
+  minuteInput.max = '60';
+  minuteInput.min = '0';
+  minuteDiv.appendChild(minuteLabel);
+  minuteDiv.appendChild(minuteInput);
+  dateDiv.appendChild(minuteDiv);
+
+  // Day/Night select
+  const daynightDiv = document.createElement('div');
+  daynightDiv.className = 'form-input';
+  const daynightLabel = document.createElement('label');
+  daynightLabel.htmlFor = 'daynight';
+  daynightLabel.textContent = 'Day/Night';
+  const daynightSelect = document.createElement('select');
+  daynightSelect.name = 'daynight';
+  daynightSelect.id = 'daynight';
+
+  const amOption = document.createElement('option');
+  amOption.value = 'AM';
+  amOption.textContent = 'AM';
+  const pmOption = document.createElement('option');
+  pmOption.value = 'PM';
+  pmOption.textContent = 'PM';
+
+  daynightSelect.appendChild(amOption);
+  daynightSelect.appendChild(pmOption);
+  daynightDiv.appendChild(daynightLabel);
+  daynightDiv.appendChild(daynightSelect);
+  dateDiv.appendChild(daynightDiv);
+
+  // Doctor select
+  const doctorDiv = document.createElement('div');
+  doctorDiv.className = 'form-input';
+  const doctorLabel = document.createElement('label');
+  doctorLabel.htmlFor = 'doctor';
+  doctorLabel.textContent = 'Doctor';
+  const doctorSelect = document.createElement('select');
+  doctorSelect.name = 'doctor';
+  doctorSelect.id = 'doctor';
+
+  fetchDB('doctors', (res) => {
+    const resultArray = Array.isArray(res) ? res : Array.from(res);
+
+    if (resultArray.length === 0) {
+      console.log('empty');
+      return;
+    }
+
+    resultArray.forEach((doc) => {
+      const name = `${doc.first_name} ${doc.last_name}`;
+      const option = document.createElement('option');
+      option.value = name;
+      option.textContent = name;
+      doctorSelect.appendChild(option);
+    });
+  });
+
+  doctorDiv.appendChild(doctorLabel);
+  doctorDiv.appendChild(doctorSelect);
+  dateDiv.appendChild(doctorDiv);
+
+  // Append the date section to the form
+  form.appendChild(dateDiv);
+
+  // Symptoms textarea
+  const symptomsDiv = document.createElement('div');
+  symptomsDiv.className = 'form-input';
+  const symptomsLabel = document.createElement('label');
+  symptomsLabel.htmlFor = 'symptoms';
+  symptomsLabel.textContent = 'Symptoms';
+  const symptomsTextarea = document.createElement('textarea');
+  symptomsTextarea.name = 'symptoms';
+  symptomsTextarea.id = 'symptoms';
+
+  symptomsDiv.appendChild(symptomsLabel);
+  symptomsDiv.appendChild(symptomsTextarea);
+  form.appendChild(symptomsDiv);
+
+  // Submit button
+  const submitButton = document.createElement('button');
+  submitButton.type = 'submit';
+  submitButton.textContent = 'Schedule Appointment';
+  form.appendChild(submitButton);
+
+  // Append the form to the body or a specific element on your page
+  return form;
 }

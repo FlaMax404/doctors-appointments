@@ -27,13 +27,13 @@ function openDB() {
 
     // Fetch and store JSON data
     Promise.all([
-      fetch('../doctors.json')
+      fetch('../encrypted_doctors.json')
         .then((response) => response.json())
         .then((data) => storeData('doctors', data)),
-      fetch('../patients.json')
+      fetch('../encrypted_patients.json')
         .then((response) => response.json())
         .then((data) => storeData('patients', data)),
-      fetch('../admin.json')
+      fetch('../encrypted_admin.json')
         .then((response) => response.json())
         .then((data) => storeData('admin', data)),
       fetch('../medicines.json')
@@ -208,6 +208,32 @@ function fetchDB(objectStore, callback) {
   }
 }
 
+function fetchQueryDB(objectStore, index, query, callback) {
+  if (db) {
+    const transaction = db.transaction(objectStore, 'readwrite');
+    const store = transaction.objectStore(objectStore);
+
+    const dbQuery = store.index(index);
+    const data = dbQuery.getAll([query]);
+
+    data.onerror = (e) => {
+      console.log('failed to fetch data from', objectStore, 'with error', e);
+    };
+
+    data.onsuccess = (e) => {
+      callback(data.result);
+    };
+
+    data.oncomplete = (e) => {
+      console.log('yes');
+      renderAppoints();
+    };
+  } else {
+    console.log('DATABASE connection failure, retrying...');
+    setTimeout(() => fetchQueryDB(objectStore, index, query, callback), 100);
+  }
+}
+
 // Helper function to store data in an object store
 function storeData(storeName, data) {
   if (!db) {
@@ -293,6 +319,40 @@ function updatePatient(
   };
 }
 
+function updateRecord(objectStore, id, data) {
+  if (!db) {
+    console.error('Database not initialized');
+    return;
+  }
+
+  console.log('trying to change id', id);
+
+  const transaction = db.transaction(objectStore, 'readwrite');
+  const store = transaction.objectStore(objectStore);
+
+  const request = store.get(id);
+
+  request.onsuccess = () => {
+    const obj = request.result;
+
+    Object.keys(data).forEach((key) => {
+      if (typeof data[key] === 'object' && !Array.isArray(data[key])) {
+        // Recursively update nested objects
+        obj[key] = obj[key] || {};
+        // updateRecord(obj[key], data[key]);
+      } else {
+        obj[key] = data[key];
+      }
+    });
+
+    const updateReq = store.put(obj);
+
+    updateReq.onsuccess = () => {
+      console.log('patient updated successfully!', updateReq.result);
+    };
+  };
+}
+
 async function findUserByEmail(email) {
   const stores = ['admin', 'doctors', 'patients'];
 
@@ -345,6 +405,13 @@ async function Login(email, password) {
     userReq.onsuccess = () => {
       const u = userReq.result;
 
+      console.log('salt:', password);
+      if (password !== Decrypt(user.salt)) {
+        console.log('wrong passwroddddd NIGGAAA');
+        alert('nigga wrong password!');
+        return;
+      }
+
       if (u) {
         window.localStorage.setItem(
           'user',
@@ -352,18 +419,18 @@ async function Login(email, password) {
         );
         window.location.replace('../index.html');
       } else {
-        alert('WHO THE FUCK ARE YOU NIGGER');
+        alert('incorrect email or password inserted.');
       }
     };
 
     userReq.onerror = () => {
-      alert('WHO THE FUCK ARE YOU NIGGER');
+      alert('incorrect email or password inserted.');
     };
 
-    if (!user) {
-      console.log('kos omak yala yabn el mitnaka ya m3ar9');
-      return;
-    }
+    // if (!user) {
+    //   alert('incorrect email or password inserted.');
+    //   return;
+    // }
   } else {
     setTimeout(() => Login(username, password), 100);
   }
@@ -371,3 +438,21 @@ async function Login(email, password) {
 const containsNonLetters = (value) => {
   return /[^a-zA-Z]/.test(value);
 };
+
+function generateID() {
+  return `${Math.floor(Math.random() * (Math.PI * 10000000))}`;
+}
+
+function Encrypt(word) {
+  const encrypted = CryptoJS.AES.encrypt(word, encryptionKey).toString();
+
+  return encrypted;
+}
+
+function Decrypt(encryptedWord) {
+  const decrypted = CryptoJS.AES.decrypt(encryptedWord, encryptionKey).toString(
+    CryptoJS.enc.Utf8
+  );
+
+  return decrypted;
+}
