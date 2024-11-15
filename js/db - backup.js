@@ -22,11 +22,26 @@ function openDB() {
 
     console.log('connected to database');
 
-    fetch('https://jsethi-mdx.github.io/cst2572.github.io/doctors.json').then((response) => {console.log(response.json())});
-    fetch('https://jsethi-mdx.github.io/cst2572.github.io/patients.json').then((response) => {console.log(response.json())});
-    fetch('https://jsethi-mdx.github.io/cst2572.github.io/admin.json').then((response) => {console.log(response.json())});
-    fetch('https://jsethi-mdx.github.io/cst2572.github.io/medicines.json').then((response) => {console.log(response.json())});
-
+    fetch('https://jsethi-mdx.github.io/cst2572.github.io/doctors.json').then(
+      (response) => {
+        console.log(response.json());
+      }
+    );
+    fetch('https://jsethi-mdx.github.io/cst2572.github.io/patients.json').then(
+      (response) => {
+        console.log(response.json());
+      }
+    );
+    fetch('https://jsethi-mdx.github.io/cst2572.github.io/admin.json').then(
+      (response) => {
+        console.log(response.json());
+      }
+    );
+    fetch('https://jsethi-mdx.github.io/cst2572.github.io/medicines.json').then(
+      (response) => {
+        console.log(response.json());
+      }
+    );
 
     // do user checking
     // currentUser = { username: 'anas', email: 'anas@anas.com' };
@@ -97,13 +112,27 @@ function openDB() {
   };
 }
 
-function Login(username, password) {
+function Login(objectStore) {
   if (db) {
-    const transaction = db.transaction('users', 'readonly');
-    const store = transaction.objectStore('users');
+    const transaction = db.transaction(objectStore, 'readonly');
+    const store = transaction.objectStore(objectStore);
 
-    const query = store.index('username');
-    const user = query.get([username]);
+    let query;
+    let user;
+
+    switch (objectStore) {
+      case 'admin':
+        query = store.index('email');
+        user = query.get([email]);
+        break;
+      case 'doctors':
+        query = store.index('email');
+        user = query.get([email]);
+        break;
+      case 'patients':
+        query = store.index('Email');
+        user = query.get([Email]);
+    }
 
     user.onerror = (e) => {
       console.log(e);
@@ -111,18 +140,20 @@ function Login(username, password) {
 
     user.onsuccess = (e) => {
       const u = user.result;
-      const decryptedPassword = Decrypt(u.salt);
-      console.log('decrypted password', decryptedPassword);
 
-      if (password === decryptedPassword) {
-        currentUser = u;
+      console.log('yes yes yse', u);
+      // const decryptedPassword = Decrypt(u.salt);
+      // console.log('decrypted password', decryptedPassword);
 
-        window.localStorage.setItem('user', JSON.stringify(u));
+      // if (password === decryptedPassword) {
+      //   currentUser = u;
 
-        window.location.replace('../index.html');
-      } else {
-        console.log('password is wrong stupid');
-      }
+      //   window.localStorage.setItem('user', JSON.stringify(u));
+
+      //   window.location.replace('../index.html');
+      // } else {
+      //   console.log('password is wrong stupid');
+      // }
     };
   } else {
     setTimeout(() => Login(username, password), 100);

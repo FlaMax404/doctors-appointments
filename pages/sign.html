@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctors | Sign Up</title>
+    <title>DoctorsCare | Sign Up</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="../css/sign.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"
@@ -17,11 +17,11 @@
     <div id="register-section" class="sign-section">
         <section id="showcase">
             <div>
-                <a href="../index.html">Doctors</a>
+                <a href="../index.html">DoctorsCare</a>
             </div>
 
             <div id="paragraph">
-                <p>create a new account to start scheduling appointments 📋</p>
+                <p>Register new patients on DoctorsCare appointments manager 📋</p>
             </div>
 
             <div id="image">
@@ -31,77 +31,70 @@
             <div>
                 <h1>Register</h1>
                 <div>
-                    <h1>account creation</h1>
-                    <p>please fill out all fields and make sure to choose to register as a patient or a doctor</p>
+                    <h1>Patient Registration</h1>
+                    <p>please fill out all fields and ensure data integrity</p>
                 </div>
             </div>
             <form id="r-form">
-                <div class="form-input" id="username">
-                    <label for="username">Username</label>
-                    <input type="text" name="username" required>
+                <div class="form-input" id="NHS">
+                    <label for="NHS">NHS</label>
+                    <input type="number" name="NHS" required>
+                </div>
+                <div class="form-input" id="title">
+                    <label for="title">Title</label>
+                    <select name="title" required>
+                        <option value="Mr">Mr.</option>
+                        <option value="Ms">Ms.</option>
+                        <option value="Rev">Rev.</option>
+                        <option value="Honorable">Honorable.</option>
+                        <option value="Mrs">Mrs.</option>
+                        <option value="Dr">Dr.</option>
+                    </select>
+                </div>
+                <div class="form-input" id="first">
+                    <label for="first">First Name</label>
+                    <input type="text" name="first" required>
+                </div>
+                <div class="form-input" id="last">
+                    <label for="last">Last Name</label>
+                    <input type="text" name="last" required>
                 </div>
                 <div class="form-input" id="email">
                     <label for="email">Email</label>
-                    <input type="text" name="email">
+                    <input type="email" name="email" required>
                 </div>
-                <div class="form-input" id="password">
-                    <label for="password">Password</label>
-                    <input type="password" name="password" required>
+                <div class="form-input" id="dob">
+                    <label for="dob">DOB</label>
+                    <input type="date" name="dob" required>
                 </div>
-                <div class="form-input" id="acc-type">
-                    <label for="acc-type">Account Type</label>
-                    <select name="acc-type" required>
-                        <option value="patient">Patient</option>
-                        <option value="doctor">Doctor</option>
-                        <option value="admin">Admin</option>
+                <div class="form-input" id="gender">
+                    <label for="gender">Gender</label>
+                    <select name="gender" required>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
                     </select>
                 </div>
+                <div class="form-input" id="address">
+                    <label for="address">Address</label>
+                    <input type="text" name="address" required>
+                </div>
+                <div class="form-input" id="telephone">
+                    <label for="telephone">Telephone</label>
+                    <input type="tel" name="telephone" required>
+                </div>
+                <!-- <div class="form-input" id="acc-type">
+                    <label for="acc-type">Account Type</label>
+                    <select name="acc-type" required>
+                        <option value="patients">Patient</option>
+                        <option value="doctors">Doctor</option>
+                    </select>
+                </div> -->
                 <div class="form-input" id="terms">
                     <label for="acc-type">I agree to all <span>Terms</span> and <span>Privacy Policy</span></label>
                     <input type="checkbox" name="terms" required>
                 </div>
 
                 <button id="submit-btn">Create Account</button>
-
-                <div id="q-login">Already have an account? <span><a>Log in</a></span></div>
-            </form>
-        </section>
-    </div>
-
-    <div id="login-section" class="hidden">
-        <section id="showcase">
-            <div>
-                <a href="../index.html">Doctors</a>
-            </div>
-
-            <div id="paragraph">
-                <p>login to your account start scheduling appointments 📋</p>
-            </div>
-
-            <div id="image">
-            </div>
-        </section>
-        <section id="signup">
-            <div>
-                <h1>Login</h1>
-                <div>
-                    <h1>login to your account</h1>
-                    <p>Thank you for using Doctors as your appointments manager</p>
-                </div>
-            </div>
-            <form id="l-form">
-                <div class="form-input" id="username">
-                    <label for="username">Username</label>
-                    <input type="text" name="username" required>
-                </div>
-                <div class="form-input" id="password">
-                    <label for="password">Password</label>
-                    <input type="password" name="password" required>
-                </div>
-
-                <button id="submit-btn">Sign In</button>
-
-                <div id="q-register">Don't have an account yet? <span><a>Join Doctors</a></span></div>
             </form>
         </section>
     </div>

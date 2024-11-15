@@ -53,6 +53,82 @@ main {
   width: 100%;
 }
 
+.user {
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: var(--background);
+  border-radius: 5px;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  width: 100%;
+  min-width: fit-content;
+
+  .user-info {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    column-gap: 2rem;
+    row-gap: 1rem;
+
+    #NHS {
+    }
+
+    #Title {
+    }
+
+    #FirstName {
+    }
+
+    #LastName {
+    }
+
+    #DOB {
+    }
+
+    #Gender {
+    }
+
+    #Address {
+    }
+
+    #Email {
+    }
+
+    #Telephone {
+    }
+
+    .user-details-tag {
+      h1 {
+        font-size: 20px;
+      }
+    }
+  }
+
+  .user-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+
+    button {
+      padding: 0.5rem 1rem;
+      border: none;
+      outline: none;
+      border-radius: 5px;
+      font-weight: bold;
+      color: var(--background);
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      cursor: pointer;
+      background-color: rgb(125, 125, 125);
+    }
+
+    button::first-letter {
+      text-transform: uppercase;
+    }
+  }
+}
+
 .appointment {
   padding: 0.5rem 1rem;
   display: flex;

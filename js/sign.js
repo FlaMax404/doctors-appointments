@@ -1,68 +1,48 @@
 const qRegister = document.getElementById('q-register');
-const qLogin = document.getElementById('q-login');
-
 const rSection = document.getElementById('register-section');
-const lSection = document.getElementById('login-section');
-
 const rForm = document.getElementById('r-form');
-const lForm = document.getElementById('l-form');
 
-window.onload = () => {
-  openDB();
-};
+window.addEventListener('load', () => {
+  const user = JSON.parse(window.localStorage.getItem('user'));
 
-qRegister.addEventListener('click', () => {
-  lSection.classList.remove('sign-section');
-  lSection.classList.add('hidden');
-  rSection.classList.add('sign-section');
-  rSection.classList.remove('hidden');
-});
-
-qLogin.addEventListener('click', () => {
-  rSection.classList.remove('sign-section');
-  rSection.classList.add('hidden');
-  lSection.classList.add('sign-section');
-  lSection.classList.remove('hidden');
+  if (user && user.accountType !== 'admin') {
+    alert('Your account does not have permission to access this page.');
+    window.location.replace('/index.html');
+  }
 });
 
 rForm.addEventListener('submit', (e) => {
   e.preventDefault();
-
-  if (
-    rForm['username'].value === '' ||
-    rForm['email'].value === '' ||
-    rForm['password'].value === '' ||
-    rForm['acc-type'].value === ''
-  ) {
-    alert('Please fill out all fields');
-    return;
-  }
 
   if (rForm['terms'].value === false) {
     alert('please agree to our terms!');
     return;
   }
 
-  const newUser = {
-    id: generateID(),
-    username: rForm['username'].value,
-    email: rForm['email'].value,
-    type: rForm['acc-type'].value,
-    salt: Encrypt(rForm['password'].value),
-  };
-
-  postRecord('users', newUser, () => {
-    window.location.replace('../index.html');
-  });
-});
-
-lForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-
-  if (lForm['username'].value === '' || lForm['password'] === '') {
-    alert('Please provide a username and a password');
+  if (
+    containsNonLetters(rForm['first'].value) ||
+    containsNonLetters(rForm['last'].value)
+  ) {
+    alert('you cannot add numbers or special characters to ur name');
     return;
   }
 
-  Login(lForm['username'].value, lForm['password'].value);
+  const newUser = {
+    NHS: rForm['NHS'].value,
+    Title: rForm['title'].value,
+    First: rForm['first'].value,
+    Last: rForm['last'].value,
+    Email: rForm['email'].value,
+    Gender: rForm['gender'].value,
+    Address: rForm['address'].value,
+    DOB: rForm['dob'].value,
+    Telephone: rForm['telephone'].value,
+  };
+
+  console.log(newUser);
+
+  storeData('patients', newUser);
+  // postRecord('users', newUser, () => {
+  //   window.location.replace('../index.html');
+  // });
 });
