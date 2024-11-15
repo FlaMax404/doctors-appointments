@@ -14,7 +14,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <div id="login-section">
+    <div id="login-section" class="sign-section">
         <section id="showcase">
             <div>
                 <a href="../index.html">Doctors</a>
@@ -36,9 +36,9 @@
                 </div>
             </div>
             <form id="l-form">
-                <div class="form-input" id="username">
-                    <label for="username">Username</label>
-                    <input type="text" name="username" required>
+                <div class="form-input" id="email">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" required>
                 </div>
                 <div class="form-input" id="password">
                     <label for="password">Password</label>
@@ -47,12 +47,11 @@
 
                 <button id="submit-btn">Sign In</button>
 
-                <div id="q-register">Don't have an account yet? <span><a>Join Doctors</a></span></div>
             </form>
         </section>
     </div>
 
-    <!-- <script src="../js/sign.js"></script> -->
+    <script src="../js/login.js"></script>
     <script src="../js/db.js"></script>
 </body>
 </html>

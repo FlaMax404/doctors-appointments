@@ -17,6 +17,7 @@
     <nav>
         <a id="logo" href="index.html">Doctors</a>
         <div>
+            <a href="./pages/sign.html">Sign up</a>
             <!-- <a href=""></a> -->
             <a href="./pages/about.html">About Us</a>
             <a href="./pages/contact.html">Contact</a>
@@ -26,68 +27,13 @@
         </div>
     </nav>
 
-    <div class="container">
-        <form id="appointment-form">
-            <h1>Schedule an appointment</h1>
-            <!-- time -->
-            <div id="date">
-                <div class="form-input">
-                    <label for="hour">Hour</label>
-                    <input name="hour" type="number" max="12" min="1">
-                </div>
-                <div class="form-input">
-                    <label for="minute">Minutes</label>
-                    <input name="minute" type="number" max="60" min="0">
-                </div>
-                <div class="form-input">
-                    <label for="daynight">Day/Night</label>
-                    <select name="daynight" id="daynight">
-                        <option value="AM">AM</option>
-                        <option value="PM">PM</option>
-                    </select>
-                </div>
-                <!-- doctors -->
-                <div class="form-input">
-                    <label for="doctor">Doctor</label>
-                    <select name="doctor" id="doctor">
-                        <option value="Walter White">Walter White</option>
-                        <option value="John Wick">John Wick</option>
-                        <option value="Batman">Batman</option>
-                        <option value="Kareem">Kareem</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- symptoms -->
-            <div class="form-input">
-                <label for="symptoms">Symptoms</label>
-                <textarea name="symptoms" id="symptoms"></textarea>
-            </div>
-
-            <button>Schedule Appointment</button>
-        </form>
-
+    <div id="content" class="container">
         <main id="main">
-            <!-- <div class="appointment">
-                <div class="appointment-doctor">
-                    <h1>Dr. </h1>
-                    <h1>Walter White</h1>
-                </div>
-                <div class="appointment-details">
-                    <div class="appointment-details-tag">
-                        <p>patient</p>
-                        <h1>jaafar</h1>
-                    </div>
-                    <div class="appointment-details-tag">
-                        <p>date</p>
-                        <h1>12:30 pm</h1>
-                    </div>
-                </div>
-            </div> -->
+
         </main>
     </div>
 
-    <script src="./js/db.js"></script>
     <script src="./js/index.js"></script>
+    <script src="./js/db.js"></script>
 </body>
 </html>
