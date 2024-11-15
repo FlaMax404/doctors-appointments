@@ -53,6 +53,10 @@ main {
   width: 100%;
 }
 
+#med-select {
+  max-width: 200px;
+}
+
 .user {
   padding: 0.5rem 1rem;
   display: flex;
@@ -120,6 +124,7 @@ main {
       color: var(--background);
       transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       cursor: pointer;
+      background-color: rgb(125, 125, 125);
     }
 
     button::first-letter {

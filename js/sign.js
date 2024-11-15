@@ -6,7 +6,7 @@ window.addEventListener('load', () => {
   const user = JSON.parse(window.localStorage.getItem('user'));
 
   if (user && user.accountType !== 'admin') {
-    alert('who let u in nigga');
+    alert('Your account does not have permission to access this page.');
     window.location.replace('/index.html');
   }
 });
@@ -23,13 +23,13 @@ rForm.addEventListener('submit', (e) => {
     containsNonLetters(rForm['first'].value) ||
     containsNonLetters(rForm['last'].value)
   ) {
-    alert('you cannot add numbers or special characters to ur name nigga');
+    alert('you cannot add numbers or special characters to ur name');
     return;
   }
 
   const newUser = {
     NHS: rForm['NHS'].value,
-    Title: rForm['title'].value, // i mean kos omak
+    Title: rForm['title'].value,
     First: rForm['first'].value,
     Last: rForm['last'].value,
     Email: rForm['email'].value,
