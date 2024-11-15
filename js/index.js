@@ -121,7 +121,7 @@ function renderUsers() {
     const resultArray = Array.isArray(res) ? res : Array.from(res);
 
     if (resultArray.length === 0) {
-      console.log('kos omak');
+      console.log('empty');
       return;
     }
 
